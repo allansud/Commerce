@@ -1,0 +1,188 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/templates/loja.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">
+		#{msg.bem_vindo_volta}
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div id="wrap">
+			<div class="center_content">
+				<div class="left_content">
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images" name="bullet1.gif"/>
+						</span>#{msg.minha_conta}
+					</div>
+
+					<div class="feat_prod_box_details">
+						<p class="details">Lorem ipsum dolor sit amet, consectetur
+							adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. Lorem
+							ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.</p>
+
+						<div class="contact_form">
+							<div class="form_subtitle">#{msg.cadastrar}</div>
+							<h:form id="cadastro">
+								<h:messages />
+								<h:inputHidden value="#{usuarioBean.usuario.codigo}" />
+								<h:inputHidden value="#{usuarioBean.usuario.ativo}" />
+								<h:inputHidden value="#{usuarioBean.destinoSalvar}" />
+
+								<h:panelGrid columns="2" cellpadding="0">
+									<h:outputLabel value="Nome:" for="nome" />
+									<h:inputText id="nome" label="Nome"
+										value="#{usuarioBean.usuario.nome}" size="30" maxlength="30"
+										required="true" requiredMessage="Você não tem nome?">
+										<f:validateLength minimum="5" maximum="30" />
+									</h:inputText>
+
+									<h:outputLabel value="e-Mail:" for="email" />
+									<h:panelGroup>
+										<h:inputText id="email" label="e-Mail"
+											value="#{usuarioBean.usuario.email}" size="46" maxlength="50"
+											required="true" validatorMessage="e-Mail inválido">
+											<f:validateRegex
+												pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+										</h:inputText>
+										<h:message for="email" />
+									</h:panelGroup>
+
+									<h:outputLabel value="Senha:" for="senha" />
+									<h:inputSecret id="senha" label="Senha"
+										value="#{usuarioBean.usuario.senha}" size="15" maxlength="10"
+										required="true" redisplay="true" />
+
+									<h:outputLabel value="Confirmar Senha:" for="confirmarsenha" />
+									<h:inputSecret id="confirmarsenha" label="Confirmar Senha"
+										value="#{usuarioBean.confirmarSenha}" size="15" maxlength="10"
+										required="true" redisplay="true" />
+
+									<h:outputLabel value="Idioma:" for="idioma" />
+									<h:selectOneMenu id="idioma"
+										value="#{usuarioBean.usuario.idioma}">
+										<f:selectItem itemValue="pt_BR" itemLabel="Português" />
+										<f:selectItem itemValue="en_US" itemLabel="English" />
+										<f:selectItem itemValue="es_ES" itemLabel="Espanol" />
+									</h:selectOneMenu>
+									<h:commandButton action="#{usuarioBean.salvar}" value="Salvar"
+										style="horizontal-align:center;" />
+								</h:panelGrid>
+							</h:form>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--end of left content-->
+
+				<div class="right_content">
+
+					<div class="languages_box">
+						<span class="red">#{msg.linguas}:</span> 
+						<h:form id="idiomas">
+							<ui:repeat var="idioma" value="#{contextoBean.idioma}">
+								<h:commandLink action="#{contextoBean.setIdiomaUsuario(idioma)}">
+									<h:graphicImage library="images" name="bandeira_#{idioma}.png"
+										title="#{msg['idioma_'.concat(idioma)]}" />
+								</h:commandLink>
+							</ui:repeat>
+						</h:form>
+					</div>
+					<div class="currency">
+						<span class="red">#{msg.moeda}: </span> <a class="selected" href="#">R$</a> 
+					</div>
+					<h:form id="carrinho">
+						<div class="cart">
+							<div class="title">
+								<span class="title_icon"><h:graphicImage library="images"
+										name="cart.gif" /></span>#{msg.meu_carrinho}
+							</div>
+							<div class="home_cart_content">
+								#{carrinhoBean.itens.size()} x items | <span class="red">#{msg.total}: #{carrinhoBean.total}</span>
+							</div>
+							<h:link styleClass="view_cart" outcome="/restrito/carrinho.jsf" value="#{msg.ver_carrinho}" />
+						</div>
+					</h:form>
+
+					<div class="title">
+						<span class="title_icon"><img src="images/bullet3.gif"
+							alt="" title="" /></span>About Our Shop
+					</div>
+					<div class="about">
+						<p>
+							<img src="images/about.gif" alt="" title="" class="right" />
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.
+						</p>
+
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet4.gif"/></span>#{msg.promocoes}
+						</div>
+						<h:form>
+							<ui:repeat var="produtos" value="#{produtoBean.listarPromocoes()}">
+								<div class="new_prod_box">
+									<a href="details.html">#{produtos.nome}</a>
+									<div class="new_prod_bg">
+										<span class="new_icon"><h:graphicImage library="images"
+												name="promo_icon.gif" /> </span> <a href="details.html"><h:graphicImage
+												library="produtos" name="#{produtos.foto1}" width="113"/></a>
+									</div>
+								</div>
+							</ui:repeat>
+						</h:form>
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><img src="images/bullet5.gif"
+								alt="" title="" /></span>#{msg.categorias}
+						</div>
+
+						<h:form>
+							<ui:repeat var="categoria" value="#{categoriaBean.lista}">
+								<ul class="list">
+									<li>
+										<h:link outcome="/publico/categoria" value="#{categoria.categoria}">
+											<f:param value="#{categoria.codigo}" name="categoria"/>
+										</h:link>
+									</li>
+								</ul>
+							</ui:repeat>
+						</h:form>
+						
+						<div class="title">
+							<span class="title_icon"><img src="images/bullet6.gif"
+								alt="" title="" /></span>#{msg.parceiros}
+						</div>
+						<ul class="list">
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+						</ul>
+					</div>
+				</div>
+				<!--end of right content-->
+				<div class="clear"></div>
+			</div>
+			<!--end of center content-->
+
+		</div>
+	</ui:define>
+</ui:composition>

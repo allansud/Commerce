@@ -1,0 +1,351 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/templates/loja.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">
+		BEM VINDO
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div id="wrap">
+			<div class="center_content">
+				<div class="left_content">
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images"
+								name="bullet1.gif" /> </span>#{msg.minha_conta}
+					</div>
+					<div class="feat_prod_box_details">
+						<p class="details">Lorem ipsum dolor sit amet, consectetur
+							adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. Lorem
+							ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.</p>
+
+						<div class="contact_form">
+							<div class="form_subtitle">#{msg.enderecos_cadastrados}</div>
+							<h:form id="listaFabricante">
+								<p:dataTable id="fabricanteLista"
+									value="#{enderecoBean.listarEnderecoUsuario}" var="enderecos"
+									sortMode="multiple" rows="15" paginator="true"
+									style="max-width: 588px; min-width: 377px; overflow: hidden" >
+
+									<f:facet name="header">
+			 							#{msg.lista_de_Enderecos}
+			 						</f:facet>
+
+									<p:column sortBy="#{enderecos.codigo}"
+										style="max-width: 25px; min-width: 20px; overflow: hidden">
+										<f:facet name="header">
+											<h:outputText value="#{msg.codigo}" />
+										</f:facet>
+										<h:outputText value="#{enderecos.codigo}" />
+									</p:column>
+									<p:column sortBy="#{enderecos.destinatario}"
+										style="max-width: 30px; min-width: 18px; overflow: hidden">
+										<f:facet name="header">
+											<h:outputText value="#{msg.destinatario}" />
+										</f:facet>
+										<p:commandLink value="#{enderecos.destinatario}"
+											update=":fabricanteDetailForm:display"
+											oncomplete="fabricanteBox.show()"
+											title="#{enderecos.destinatario}">
+											<f:setPropertyActionListener
+												target="#{enderecoBean.endereco}" value="#{enderecos}" />
+										</p:commandLink>
+									</p:column>
+									
+									<p:column headerText="Excluir"
+										style="max-width: 20px; min-width: 5px; overflow: hidden">
+										<p:commandLink
+											actionListener="#{enderecoBean.excluirEndereco(enderecos)}"
+											update="fabricanteLista"
+											onclick="if (!confirm('#{msg.confirmar_exclusao} #{enderecos.street}?')) return false;">
+											<h:graphicImage library="images" name="excluir16.png"
+												style="border:0" />
+										</p:commandLink>
+									</p:column>
+									<f:facet name="footer">
+										<p:commandButton value="#{msg.novo_endereco}"
+											oncomplete="cadastroFabricante.show()" icon="ui-icon-star"
+											title="Cadastrar Endereços" />
+									</f:facet>
+								</p:dataTable>
+							</h:form>
+
+							<p:dialog header="#{msg.cadastrar_endereco}"
+								widgetVar="cadastroFabricante" resizable="false"
+								id="cadastFabricante">
+								<h:form id="cadastroFabricanteForm">
+
+									<p:growl id="growl1" showDetail="true" life="5000" />
+
+									<p:panelGrid id="displayCadastFabricante" columns="2"
+										cellpadding="4" style="margin:0 auto;">
+										
+										<h:outputText value="#{msg.destinatario} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.destinatario}"
+											required="true" maxlength="50"
+											requiredMessage="#{msg.mensagem_requerida_destinatario}">
+											<f:validateLength minimum="3" maximum="50"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg.cidade} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.city}"
+											required="true" maxlength="80"
+											requiredMessage="#{msg.mensagem_requerida_cidade}">
+											<f:validateLength minimum="3" maximum="80"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg.estado} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.state}"
+											required="true" maxlength="2"
+											requiredMessage="#{msg.mensagem_requerida_bairro}">
+											<f:validateLength minimum="1" maximum="2"/>
+										</p:inputText>
+											
+										<h:outputText value="#{msg.cep} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.postalCode}"
+											required="true" maxlength="10"
+											requiredMessage="#{msg.mensagem_requerida_cep}">
+											<f:validateLength minimum="8" maximum="10"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg.rua} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.street}"
+											required="true" maxlength="400" 
+											requiredMessage="#{msg.mensagem_requerida_rua}">
+											<f:validateLength minimum="5" maximum="400"/>
+										</p:inputText>
+									
+									 	<h:outputText value="#{msg.complemento} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.complement}" maxlength="300">
+											<f:validateLength minimum="4" maximum="300"/>
+										</p:inputText>
+									 	
+									 	<h:outputText value="#{msg.bairro} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.district}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_bairro}" maxlength="30">
+											<f:validateLength minimum="3" maximum="30"/>
+										</p:inputText>
+									 	
+									 	<h:outputText value="#{msg.pais} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.country}"
+											required="true" requiredMessage="#{msg.mensagem_requerida_estado}">
+											<f:validateLength minimum="3" maximum="15"/>
+										</p:inputText>
+										
+										<h:outputText value="#{msg.numero} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.number}"
+											required="true" requiredMessage="#{msg.mensagem_requerida_numero}" maxlength="3">
+											<f:validateLength minimum="1" maximum="3"/>
+										</p:inputText>
+
+										<f:facet name="footer">
+											<p:commandButton value="Cadastrar?"
+												update=":listaFabricante:fabricanteLista, growl1"
+												oncomplete="handleSubmitRequest(xhr, status, args, 'cadastFabricante','cadastroFabricanteForm');"
+												actionListener="#{enderecoBean.salvarEnderecos()}" />
+											<p:commandButton type="reset" value="Reset"></p:commandButton>
+										</f:facet>
+									</p:panelGrid>
+								</h:form>
+							</p:dialog>
+
+							<p:dialog header="Detalhes Fabricante" widgetVar="fabricanteBox"
+								resizable="false" id="fabricanteBx">
+								<h:form id="fabricanteDetailForm">
+									<p:panelGrid id="display" columns="2" cellpadding="4"
+										style="margin:0 auto;">
+
+										<h:outputText value="#{msg.destinatario} :"></h:outputText>
+										<h:outputText value="#{enderecoBean.endereco.destinatario}" />
+
+										<h:outputText value="#{msg.destinatario} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.destinatario}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_destinatario}" />
+										
+										<h:outputText value="#{msg.cidade} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.city}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_cidade}" />
+										
+										<h:outputText value="#{msg.UF} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.state}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_uf}" />
+											
+										<h:outputText value="#{msg.cep} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.postalCode}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_cep}" />
+										
+										<h:outputText value="#{msg.rua} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.street}"
+											required="true" 
+											requiredMessage="#{msg.mensagem_requerida_rua}" />
+									
+									 	<h:outputText value="#{msg.complemento} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.complement}" />
+									 	
+									 	<h:outputText value="#{msg.estado} :"></h:outputText>
+										<p:inputText
+											value="#{enderecoBean.endereco.district}"
+											required="true"
+											requiredMessage="#{msg.mensagem_requerida_estado}" />
+
+										<f:facet name="footer">
+											<p:commandButton value="Alterar"
+												update=":listaFabricante:fabricanteLista, :growl1"
+												oncomplete="handleSubmitRequest(xhr, status, args, 'fabricanteBx'); "
+												actionListener="#{enderecoBean.alterarEndereco()}" />
+										</f:facet>
+									</p:panelGrid>
+								</h:form>
+							</p:dialog>
+							<p:growl id="growl1" showDetail="true" life="5000" />
+							<!-- end of right content -->
+							<script type="text/javascript">  
+				    		function handleSubmitRequest(xhr, status, args, dialogName, formName) {  
+				            	dialog = jQuery('#'+dialogName);
+				        	if(args.validationFailed) {  
+				           		dialog.effect("shake", { times:3 }, 100);  
+				        	} else {
+				            	clearForm(formName);
+
+				            	fabricanteBox.hide();
+				            	cadastroFabricante.hide();  
+				        		}  
+				    		}
+				    		function clearForm(formName){
+				        		jQuery('#'+formName).each(function(){
+					        		this.reset();
+								});
+				    		}
+							</script>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--end of left content-->
+
+				<div class="right_content">
+
+					<div class="languages_box">
+						<span class="red">#{msg.linguas}:</span> 
+						<h:form id="idiomas">
+							<ui:repeat var="idioma" value="#{contextoBean.idioma}">
+								<h:commandLink action="#{contextoBean.setIdiomaUsuario(idioma)}">
+									<h:graphicImage library="images" name="bandeira_#{idioma}.png"
+										title="#{msg['idioma_'.concat(idioma)]}" />
+								</h:commandLink>
+							</ui:repeat>
+						</h:form>
+					</div>
+					<div class="currency">
+						<span class="red">#{msg.moeda}: </span> <a class="selected" href="#">R$</a> 
+					</div>
+					
+					<h:form id="carrinho">
+						<div class="cart">
+							<div class="title">
+								<span class="title_icon"><h:graphicImage library="images"
+										name="cart.gif" /></span>#{msg.meu_carrinho}
+							</div>
+							<div class="home_cart_content">
+								#{carrinhoBean.itens.size()} x items | <span class="red">#{msg.total}: #{carrinhoBean.total}</span>
+							</div>
+							<h:link styleClass="view_cart" outcome="/restrito/carrinho.jsf" value="#{msg.ver_carrinho}" />
+						</div>
+					</h:form>
+
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images" name="bullet3.gif"/></span>#{msg.sobre_nossa_loja}
+					</div>
+					<div class="about">
+						<p>
+							<h:graphicImage library="images" name="about.gif"/>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.
+						</p>
+
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet4.gif"/></span>#{msg.promocoes}
+						</div>
+						<h:form>
+							<ui:repeat var="produtos" value="#{produtoBean.listarPromocoes()}">
+								<div class="new_prod_box">
+									<a href="details.html">#{produtos.nome}</a>
+									<div class="new_prod_bg">
+										<span class="new_icon"><h:graphicImage library="images"
+												name="promo_icon.gif" /> </span> <a href="details.html"><h:graphicImage
+												library="produtos" name="#{produtos.foto1}" width="113"/></a>
+									</div>
+								</div>
+							</ui:repeat>
+						</h:form>
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet5.gif"/></span>Menu
+						</div>
+
+						<ul class="list">
+							<li><h:link outcome="/restrito/enderecos" value="Endereços Envio"/></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+						</ul>
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet6.gif"/></span>Partners
+						</div>
+						<ul class="list">
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+						</ul>
+					</div>
+				</div>
+				<!--end of right content-->
+				<div class="clear"></div>
+			</div>
+			<!--end of center content-->
+
+		</div>
+	</ui:define>
+</ui:composition>

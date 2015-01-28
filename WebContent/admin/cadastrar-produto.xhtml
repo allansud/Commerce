@@ -1,0 +1,250 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/templates/loja.xhtml" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">
+		BEM VINDO
+	</ui:define>
+
+	<ui:define name="corpo">
+		<div id="wrap">
+			<div class="center_content">
+				<div class="left_content">
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images"
+								name="bullet1.gif" /> </span>My account
+					</div>
+					<div class="feat_prod_box_details">
+						<p class="details">Lorem ipsum dolor sit amet, consectetur
+							adipisicing elit, sed do eiusmod tempor incididunt ut labore et
+							dolore magna aliqua. Ut enim ad minim veniam, quis nostrud. Lorem
+							ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.</p>
+
+						<div class="contact_form">
+							<div class="form_subtitle">#{msg.cadastro_produto}</div>
+							<h:form enctype="multipart/form-data" id="cadastro_prod">
+								<h:panelGrid columns="2">
+									<h:outputText value="#{msg.vendedor}" />
+									<p:selectOneMenu value="#{produtoBean.vendedorEscolhido}" effect="drop">
+										<f:selectItem itemLabel="#{msg.escolha}" itemValue=""/>
+										<f:selectItems value="#{vendedorBean.lista}" 
+											var="vendedor" itemLabel="#{vendedor.nome}" itemValue="#{vendedor.id}"/>
+									</p:selectOneMenu>
+									<h:outputText value="#{msg.fabricante}" />
+									<p:selectOneMenu value="#{produtoBean.fabricanteEscolhido}"
+										effect="drop">
+										<f:selectItem itemLabel="Escolha Um" itemValue="" />
+										<f:selectItems value="#{fabricanteBean.listaFabricante}"
+											var="fabricante" itemLabel="#{fabricante.nome_fabricante}"
+											itemValue="#{fabricante.codigo}" />
+									</p:selectOneMenu>
+									<h:outputText value="#{msg.categorias}" />
+									<p:selectOneMenu value="#{produtoBean.categoriaEscolhida}"
+										effect="drop">
+										<f:selectItem itemLabel="Escolha Um" itemValue="" />
+										<f:selectItems value="#{categoriaBean.lista}"
+											var="categoria" itemLabel="#{categoria.categoria}"
+											itemValue="#{categoria.codigo}" />
+									</p:selectOneMenu>
+									<h:outputLabel value="#{msg.produto_nome}" for="nome" />
+									<h:inputText id="nome" label="Nome"
+										value="#{produtoBean.produto.nome}" size="30" maxlength="30"
+										required="true" requiredMessage="#{msg.erro_name}">
+										<f:validateLength minimum="5" maximum="30" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.descricao}" for="descricao" />
+									<h:inputText id="descricao" label="Descrição"
+										value="#{produtoBean.produto.descricao}" required="true"
+										requiredMessage="#{msg.erro_descricao}">
+										<f:validateLength minimum="10" maximum="1000" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.preco}" for="preco" />
+									<h:inputText id="preco" label="Preço"
+										value="#{produtoBean.produto.valor}" required="true"
+										requiredMessage="#{msg.erro_preco}">
+										<f:convertNumber pattern="#000.00" />
+										<f:validateLength minimum="1" maximum="7" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.garantia} " for="garantia" />
+									<h:inputText id="garantia" label="Garantia" size="37"
+										maxlength="100" value="#{produtoBean.produto.garantia}"
+										required="true"
+										requiredMessage="#{msg.erro_garantia}">
+										<f:validateLength minimum="4" maximum="100" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.Peso} " for="peso" />
+									<h:inputText id="peso" label="Peso"
+										value="#{produtoBean.produto.peso}" required="true"
+										maxlength="5"
+										requiredMessage="#{msg.erro_peso}">
+										<f:validateLength minimum="1" maximum="5" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.comprimento} " for="comprimento" />
+									<h:inputText id="comprimento" label="Comprimento" maxlength="5"
+										value="#{produtoBean.produto.comprimento}" required="true"
+										requiredMessage="#{msg.erro_comprimento}">
+										<f:validateLength minimum="1" maximum="5" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.altura} " for="altura" />
+									<h:inputText id="altura" label="Altura" maxlength="5"
+										value="#{produtoBean.produto.altura}" required="true"
+										requiredMessage="#{msg.erro_altura}">
+										<f:validateLength minimum="1" maximum="5" />
+									</h:inputText>
+
+									<h:outputLabel value="#{msg.largura}" for="largura" />
+									<h:inputText id="largura" label="Largura" maxlength="5"
+										value="#{produtoBean.produto.largura}" required="true"
+										requiredMessage="#{msg.erro_largura}">
+										<f:validateLength minimum="1" maximum="5" />
+									</h:inputText>
+									
+									<h:selectBooleanCheckbox id="promocao" value="#{produtoBean.produto.promocao}" />
+									<h:outputLabel value="#{msg.produto_promocao}" for="promocao" />
+
+									<p:fileUpload
+										fileUploadListener="#{produtoBean.handleFileUpload}"
+										allowTypes="/(\.|\/)(gif|jpe?g|png)$/" sizeLimit="10000000"
+										description="Escolha Imagens" update="messages" />
+
+									<p:growl showDetail="true" id="messages" life="5000" />
+
+								</h:panelGrid>
+								<h:commandButton action="#{produtoBean.salvar}"
+									value="Cadastrar" update="messages" />
+							</h:form>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--end of left content-->
+
+				<div class="right_content">
+
+					<div class="languages_box">
+						<span class="red">#{msg.linguas}:</span> 
+						<h:form id="idiomas">
+							<ui:repeat var="idioma" value="#{contextoBean.idioma}">
+								<h:commandLink action="#{contextoBean.setIdiomaUsuario(idioma)}">
+									<h:graphicImage library="images" name="bandeira_#{idioma}.png"
+										title="#{msg['idioma_'.concat(idioma)]}" />
+								</h:commandLink>
+							</ui:repeat>
+						</h:form>
+					</div>
+					<div class="currency">
+						<span class="red">#{msg.moeda}: </span> <a class="selected" href="#">R$</a> 
+					</div>
+					<div class="cart">
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="cart.gif"/></span>#{msg.meu_carrinho}
+						</div>
+						<div class="home_cart_content">
+							3 x items | <span class="red">TOTAL: 100$</span>
+						</div>
+						<a href="cart.html" class="view_cart">view cart</a>
+					</div>
+
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images" name="bullet3.gif"/></span>#{msg.sobre_nossa_loja}
+					</div>
+					<div class="about">
+						<p>
+							<h:graphicImage library="images" name="about.gif" />
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.
+						</p>
+
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images"
+									name="bullet4.gif" /></span>Promotions
+						</div>
+						<div class="new_prod_box">
+							<a href="details.html">product name</a>
+							<div class="new_prod_bg">
+								<span class="new_icon"><h:graphicImage library="images"
+										name="promo_icon.gif" /> </span> <a href="details.html"><h:graphicImage
+										library="images" name="thumb1.gif" /></a>
+							</div>
+						</div>
+
+						<div class="new_prod_box">
+							<a href="details.html">product name</a>
+							<div class="new_prod_bg">
+								<span class="new_icon"><h:graphicImage library="images"
+										name="promo_icon.gif" /></span> <a href="details.html"> <h:graphicImage
+										library="images" name="thumb2.gif" /></a>
+							</div>
+						</div>
+
+						<div class="new_prod_box">
+							<a href="details.html">product name</a>
+							<div class="new_prod_bg">
+								<span class="new_icon"><h:graphicImage library="images"
+										name="promo_icon.gif" /></span> <a href="details.html"> <h:graphicImage
+										library="images" name="thumb3.gif" /></a>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images"
+									name="bullet5.gif" /></span>Categories
+						</div>
+
+						<ul class="list">
+							<li><h:link outcome="/admin/cadastrar-produto" value="Cadastrar Produto"/></li>
+							<li><h:link outcome="/admin/cadastrar-fabricante" value="Cadastrar Fabricante"/></li>
+							<li><h:link outcome="/admin/cadastrar-categoria" value="Cadastrar Categoria"/></li>
+							<li><h:link outcome="/admin/cadastrar-vendedor" value="Cadastrar Vendedor"/> </li>
+							<li><h:link outcome="/admin/listar-usuarios" value="Usuarios"/></li>							
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+						</ul>
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images"
+									name="bullet6.gif" /></span>Partners
+						</div>
+						<ul class="list">
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+						</ul>
+					</div>
+				</div>
+				<!--end of right content-->
+				<div class="clear"></div>
+			</div>
+			<!--end of center content-->
+
+		</div>
+	</ui:define>
+</ui:composition>

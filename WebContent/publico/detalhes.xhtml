@@ -1,0 +1,254 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	template="/templates/loja.xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">
+		BEM VINDO
+	</ui:define>
+	<ui:define name="corpo">
+		<f:metadata>
+			<f:viewParam name="produto" value="#{produtoBean.produto.codigo}"/>
+		</f:metadata>
+		<h:inputHidden value="#{produtoBean.carregaProduto()}" />		
+		<div id="wrap">
+			<div class="center_content">
+				<div class="left_content">
+					<div class="crumb_nav">
+						<h:link value="home" outcome="principal"/> &gt;&gt; #{produtoBean.produto.nome}
+					</div>
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images" name="bullet1.gif"/></span>#{produtoBean.produto.nome}
+					</div>
+
+					<div class="feat_prod_box_details">
+
+						<div class="prod_img">
+							<br />
+							<br />
+							<p:lightBox>
+								<h:outputLink
+									value="#{request.contextPath}/resources/produtos/#{produtoBean.produto.foto1}" title="#{produtoBean.produto.nome}">
+									<h:graphicImage library="produtos" style="border:0" name="#{produtoBean.produto.foto1}" width="115"/>
+								</h:outputLink>
+							</p:lightBox>
+						</div>
+
+						<div class="prod_det_box">
+							<div class="box_top"></div>
+							<div class="box_center">
+								<div class="prod_title">#{msg.detalhes}</div>
+								<p class="details">
+									#{produtoBean.produto.descricao}
+								</p>
+								<div class="price">
+									<strong>#{msg.preco}:</strong> <span class="red">
+										<h:outputText value="#{produtoBean.produto.valor}" styleClass="price">
+											<f:convertNumber pattern="R$ #,#00.00" type="currency" /> 	
+										</h:outputText>
+									</span>
+								</div>
+								<div class="price">
+									<strong>#{msg.cores}:</strong> <span class="colors"><h:graphicImage library="images" name="color1.gif"/></span> <span
+										class="colors"><h:graphicImage library="images" name="color2.gif"/></span> <span class="colors">
+										<h:graphicImage library="images" name="color3.gif"/></span>
+								</div>
+									<p:commandButton process="@this" update="carrinho" value="Adicionar ao carrinho" 
+										actionListener="#{carrinhoBean.adicionaItem(produtoBean.produto)}" styleClass="styleGreen"/>
+								<div class="clear"></div>
+							</div>
+
+							<div class="box_bottom"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+
+					<div id="demo" class="demolayout">
+
+						<ul id="demo-nav" class="demolayout">
+							<li><a class="active" href="#tab1">#{msg.mais_detalhes}</a></li>
+							<li><a class="" href="#tab2">#{msg.produtos_relacionados}</a></li>
+							
+						</ul>
+
+						<div class="tabs-container">
+
+							<div style="display: block;" class="tab" id="tab1">
+								<p class="more_details">Lorem ipsum dolor sit amet,
+									consectetur adipisicing elit, sed do eiusmod tempor incididunt
+									ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+									nostrud exercitation.</p>
+								<ul class="list">
+									<li><a href="#">Lorem ipsum dolor sit amet,
+											consectetur adipisicing elit</a></li>
+									<li><a href="#">Lorem ipsum dolor sit amet,
+											consectetur adipisicing elit</a></li>
+									<li><a href="#">Lorem ipsum dolor sit amet,
+											consectetur adipisicing elit</a></li>
+									<li><a href="#">Lorem ipsum dolor sit amet,
+											consectetur adipisicing elit</a></li>
+								</ul>
+								<p class="more_details">Lorem ipsum dolor sit amet,
+									consectetur adipisicing elit, sed do eiusmod tempor incididunt
+									ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+									nostrud exercitation.</p>
+							</div>
+
+							<div style="display: none;" class="tab" id="tab2">
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb1.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb2.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb3.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb1.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb2.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+
+								<div class="new_prod_box">
+									<a href="details.html">product name</a>
+									<div class="new_prod_bg">
+										<a href="details.html"><img src="images/thumb3.gif" alt=""
+											title="" class="thumb" border="0" /></a>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<!--end of left content-->
+
+				<div class="right_content">
+
+					<div class="languages_box">
+						<span class="red">#{msg.linguas}:</span> 
+						<h:form id="idiomas">
+							<ui:repeat var="idioma" value="#{contextoBean.idioma}">
+								<h:commandLink action="#{contextoBean.setIdiomaUsuario(idioma)}">
+									<h:graphicImage library="images" name="bandeira_#{idioma}.png"
+										title="#{msg['idioma_'.concat(idioma)]}" />
+								</h:commandLink>
+							</ui:repeat>
+						</h:form>
+					</div>
+					<div class="currency">
+						<span class="red">#{msg.moeda}: </span> <a class="selected" href="#">R$</a> 
+					</div>
+					<h:form id="carrinho">
+						<div class="cart">
+							<div class="title">
+								<span class="title_icon"><h:graphicImage library="images"
+										name="cart.gif" /></span>#{msg.meu_carrinho}
+							</div>
+							<div class="home_cart_content">
+								#{carrinhoBean.itens.size()} x items | <span class="red">#{msg.total}: #{carrinhoBean.total}</span>
+							</div>
+							<h:link styleClass="view_cart" outcome="/restrito/carrinho.jsf" value="#{msg.ver_carrinho}" />
+						</div>
+					</h:form>
+					<div class="title">
+						<span class="title_icon"><h:graphicImage library="images" name="bullet3.gif"/></span>#{msg.sobre_nos}
+					</div>
+					<div class="about">
+						<p>
+							<h:graphicImage library="images" name="about.gif"/>
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+							eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+							enim ad minim veniam, quis nostrud.
+						</p>
+
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet4.gif"/></span>#{msg.promocoes}
+						</div>
+						<h:form>
+							<ui:repeat var="produtos" value="#{produtoBean.listarPromocoes()}">
+								<div class="new_prod_box">
+									<a href="details.html">#{produtos.nome}</a>
+									<div class="new_prod_bg">
+										<span class="new_icon"><h:graphicImage library="images"
+												name="promo_icon.gif" /> </span> <a href="details.html"><h:graphicImage
+												library="produtos" name="#{produtos.foto1}" width="113"/></a>
+									</div>
+								</div>
+							</ui:repeat>
+						</h:form>
+					</div>
+
+					<div class="right_box">
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet5.gif"/></span>#{msg.categorias}
+						</div>
+
+						<h:form>
+							<ui:repeat var="categoria" value="#{categoriaBean.lista}">
+								<ul class="list">
+									<li>
+										<h:link outcome="/publico/categoria" value="#{categoria.categoria}">
+											<f:param value="#{categoria.codigo}" name="categoria"/>
+										</h:link>
+									</li>
+								</ul>
+							</ui:repeat>
+						</h:form>
+
+						<div class="title">
+							<span class="title_icon"><h:graphicImage library="images" name="bullet6.gif"/></span>#{msg.parceiros}
+						</div>
+						<ul class="list">
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+							<li><a href="#">flower gifts</a></li>
+							<li><a href="#">specials</a></li>
+							<li><a href="#">hollidays gifts</a></li>
+							<li><a href="#">accesories</a></li>
+						</ul>
+					</div>
+				</div>
+				<!--end of right content-->
+				<div class="clear"></div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
